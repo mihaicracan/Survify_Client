@@ -25,6 +25,8 @@ elixir(function(mix) {
 
         'app.js',
     	
+        'services/api.js',
+
         'controllers/login.js',
         'controllers/register.js',
     	], 'public/js/app.js')

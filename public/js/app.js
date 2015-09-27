@@ -438,9 +438,69 @@ angular.module('survify', ['ui.router'], function($httpProvider) {
 
 angular.module('survify')
 
-.controller('LoginCtrl', function($scope, $location) {
+.factory('APIService', function($http) {
 
-	console.log("Login Controller");
+	var SERVER = "http://survify.dev/api";
+
+	// Public Methods
+
+	var login = function(params, success, error){
+		var promise = $http.post(SERVER+"/login", params);
+
+		handleResponse(promise, success, error);
+	}
+
+	// Private Methods
+
+	var handleResponse = function(promise, success, error){
+		promise
+		.success(function(response){
+			if (angular.isFunction(success)) {
+				success(response);
+			}
+		})
+		.error(function(response){
+			if (angular.isFunction(error)) {
+				error(response);
+			}
+		});
+	}
+
+	// Expose API Public Methods
+
+	return {
+		login: login,
+	};
+});
+
+
+angular.module('survify')
+
+.controller('LoginCtrl', function($scope, $location, APIService) {
+
+	// Define Init Method
+	var init = function(){
+		initScope();
+	}
+
+	// Init Scope Data
+	var initScope = function(){
+		// params
+		$scope.loginData = {};
+
+		// methods
+		$scope.onLoginClick = onLoginClick;
+	}
+
+	// Login Click Listener
+	var onLoginClick = function(){
+		console.log($scope.loginData);
+
+		APIService.login($scope.loginData);
+	}
+
+	// Call Init Method
+	init();
 });
 
 
