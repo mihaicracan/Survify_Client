@@ -66,7 +66,7 @@ angular.module('survify', ['ui.router'], function($httpProvider) {
     };
 }])
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $stateProvider
 
@@ -84,4 +84,7 @@ angular.module('survify', ['ui.router'], function($httpProvider) {
   
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
+
+    // use the HTML5 History API
+    $locationProvider.html5Mode(true);
 })
